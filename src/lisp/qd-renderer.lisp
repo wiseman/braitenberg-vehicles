@@ -4,7 +4,7 @@
 ;; Copyright:   Copyright (c) 1999 John Wiseman
 ;; File:        qd-renderer.lisp
 ;; Created:     12 October 1998
-;; Author:      John Wiseman (wiseman@neodesic.com)
+;; Author:      John Wiseman (jjwiseman@gmail.com)
 ;; 
 ;; Description: Beginning of an MCL QuickDraw renderer for
 ;;		Braitenberg vehicles.

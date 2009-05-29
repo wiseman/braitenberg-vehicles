@@ -4,7 +4,7 @@
 ;; Copyright:   Copyright (c) 1999 John Wiseman
 ;; File:        world.lisp
 ;; Created:     2 December 1997
-;; Author:      John Wiseman (wiseman@neodesic.com)
+;; Author:      John Wiseman (jjwiseman@gmail.com)
 ;; 
 ;; Description: Braitenberg vehicle simulator world
 ;; 

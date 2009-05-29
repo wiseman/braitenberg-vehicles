@@ -4,7 +4,7 @@
 ;; Copyright:   Copyright (c) 1999 John Wiseman
 ;; File:        qd3d-renderer.lisp
 ;; Created:     10 June 1998
-;; Author:      John Wiseman (wiseman@neodesic.com)
+;; Author:      John Wiseman (jjwiseman@gmail.com)
 ;; 
 ;; Description: MCL QuickDraw 3D renderer for Braitenberg vehicles.
 ;;		See <http://nd1.neodesic.com/lisp/QD3D/> for the latest

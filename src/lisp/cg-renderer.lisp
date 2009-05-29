@@ -4,7 +4,7 @@
 ;; Copyright:   Copyright (c) 1999 John Wiseman
 ;; File:        cg-renderer.lisp
 ;; Created:     19 July 1998
-;; Author:      John Wiseman (wiseman@neodesic.com)
+;; Author:      John Wiseman (jjwiseman@gmail.com)
 ;; 
 ;; Description: Common Graphics renderer for Braitenberg vehicles.
 ;; 

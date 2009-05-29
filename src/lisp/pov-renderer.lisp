@@ -4,7 +4,7 @@
 ;; Copyright:   Copyright (c) 1999 John Wiseman
 ;; File:        pov-renderer.lisp
 ;; Created:     8 June 1998
-;; Author:      John Wiseman (wiseman@neodesic.com)
+;; Author:      John Wiseman (jjwiseman@gmail.com)
 ;; 
 ;; Description: POV-Ray renderer for Braitenberg vehicles.
 ;; 
