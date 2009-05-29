@@ -1,2 +1,1 @@
-jikes +D $* -classpath /usr/jdk1.2/jre/lib/rt.jar:.:skij.jar:/usr/jdk1.2/jre/lib/rt.jar org/heavymeta/vehicles/*.java
-#javac $* -classpath .:skij.jar:/usr/jdk1.2/jre/lib/rt.jar org/heavymeta/vehicles/*.java
+javac $* -classpath skij.jar org/heavymeta/vehicles/*.java
