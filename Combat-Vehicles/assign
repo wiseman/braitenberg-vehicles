@@ -1,0 +1,229 @@
+CS174a Computer graphics Prog. Assignment 7/8
+----------------------------------------------------------------------------
+
+Animation System
+
+intermediate (7) : Saturday, November 23, 11:59 pm, final (8) Wednesday,
+November 27 11:59 pm
+
+Overview
+
+The goal of this assignment is to build a basis for a simple animation
+system. The features that you will implement include interactive motion path
+editing, speed and orientation time dependence editing.
+
+We allocated more time for this assignment; there is an intermediate
+deadline however. Your unfinished work should be turned in as Assignment 7,
+and the final program should be turned in as Assignment 8. The requirements
+for both parts are outlined below.
+
+What your program should do
+
+Your program should support the animation following cycle:
+
+  1. load a scene from an .iv file;
+  2. choose objects;
+  3. create and edit motion paths and time dependencies of speed and
+     orientation;
+  4. animate the objects;
+  5. repeat all previous steps until the desired effect is achieved;
+  6. Save the frames of the animation.
+
+The duration of the animation is a command-line argument and is given in
+seconds. Use the standard rate of 30 frames per second to compute the
+required number of frames.
+
+For this assignment, we will assume that each object represented by a shape
+or a separator node at the top level moves as a rigid body. Thus, only the
+top level nodes can be selected.
+
+Interface.
+
+Creating a good interface for positioning points in 3D is rather difficult.
+We will stick to the traditional four window interface, which is relatively
+easy to implement but rather difficult to use. The modeling program
+/usr/demos/bin/i3dm is an example of a system using this interface. In one
+of the windows you can see the scene from any point of view, but you cannot
+do any editing there. Three other windows show you the views from three
+fixed cameras looking down x,y and z axes. In these windows you do editing.
+
+The only 3D object that you will need to edit in your program is a motion
+path for a given shape. Motion paths should be represented with cubic
+B-spline curves interpolating the endpoints.
+
+Clicking on the left mouse button with the shift key pressed creates a new
+vertex; dragging a vertex moves it. The vertices are created and moved in
+the planes parallel to the coordinate planes. For example, if the mouse
+event occurs in the window showing the X-Y plane, the new point will have Z
+coordinate equal to the Z coordinate of the previous control point of the
+curve; if we drag the point, the Z coordinate won't change. The middle
+button is used to remove a control point. Clicking on a point with control
+key pressed increases multiplicity of the middle knot out of the three knots
+associated with this point.
+
+All new points are added at the end of the curve; when a point is added, the
+multiplicity of the corresponding knot should guarantee interpolation. When
+the next point is added, the multiplicity of the knot is reduced by 3 for
+the old endpoint, and the old endpoint is no longer interpolated.
+
+The motion path and its control points should be displayed in all windows.
+When an object is selected, its motion path becomes editable and the time
+dependencies for that object appear in the time window. All motion paths may
+be visible at the same time. Visibility of the paths corresponding to the
+objects that are not selected can be toggled by clicking on the path.
+
+In addition to the four windows above, you will need yet another window that
+will be used for editing the time dependencies of the speed and orientation,
+represented by 1D B-splines. We will refer to this window as ``time
+window''.
+
+The time dependency of speed is described by one curve and the time
+dependency of orientation is described by three curves, corresponding to
+so-called roll, pitch and yaw angles. draw coordinate axes with ticks for
+each curve. The time axis should be horizontal. The time can be measured in
+frames, i.e. 1/30 of a second. The angles should be measured in degrees and
+the speed in units per second, where unit corresponds to the unit distance
+in the world coordinates.
+
+Editing curves in the time window is similar; it is not possible however to
+add points at the end (all curves extend through the whole time interval);
+but it is possible to insert knots at arbitrary locations in the parametric
+interval. Start with a straight line with 4 control points as discussed
+below.
+
+Representing Orientation.
+
+These three angles define the rotation of the object with respect to a
+coordinate system. In general, the choice of a convenient coordinate system
+depends on the nature of motion that we are trying to represent. We will use
+the following coordinate system to describe orientation: Z-axis should point
+along the tangent line of the motion path, Y axis coincides with the Y axis
+of the world coordinate system, and X-axis is the perpendicular to Y and Z.
+The reason for choosing this particular system is the following: Z-axis
+always corresponds to the direction of motion, and for moving objects that
+are not connected to other objects their orientation with respect to this
+direction will tend to be fixed or easy to define. The Y-axis of the world
+coordinate system usually corresponds to the ``up'' direction; again, in
+many situations moving objects tend to keep a fixed orientation with respect
+to ``up''.
+
+Imagine an airplane or a missile oriented along the Z-axis. Then roll is
+rotation of the airplane around its axis, i.e. Z-axis, pitch is rotation
+around the X-axis, and yaw is rotation around the vertical Y-axis.
+
+Animation.
+
+Pressing ``A'' starts a cyclic animation of the scene; pressing ``A'' for
+the second time stops it. Pressing ``N'' should step through the animation
+one frame at a time. Motion paths should not be visible during the
+animation.
+
+Pressing ``S'' resets all objects to their initial positions and returns to
+the editing mode. ``W'' toggles saving frames on disk. Once you press ``W'',
+all frames that are rendered, will be written out to the disk as files in
+SGI's RGB format. Write the files at 320x240 resolution which is the
+standard MPEG resolution.
+
+Implementation Suggestions
+
+Editing
+
+As you can easily guess, four windows with the views of a scene are
+connected to the same scene graph. Use a viewer for one of the windows, and
+regular Inventor windows for the three projection views.
+
+For each object on the top level of the scene graph attach a motion
+information Separator node that will keep the node representing the motion
+path and a subgraph with time dependencies. Time dependencies should be made
+invisible in the main scene graph.
+
+Each time an object is selected, its time dependencies subgraph is shown in
+the time window. 1D spline editing can be implemented using Inventor's 3D
+curves. One of the coordinates of all control points (Z) should be set to
+zero, another one (X) should be chosen in such a way that the X coordinate
+of the points on the curve is guaranteed to be equal to the parameter value.
+
+Initially, start with a simple Bezier horizontal straight line with knots (
+0,0,0,0,1,1,1,1) and control values 0,0,0,0 (i.e. Y values ). The values of
+X coordinates that guarantee that for the whole curve X is equal to the
+parameter value should be 0, T/3, 2T/3, T where T is the total time of the
+animation. Thus, the initial control points are (0,0,0), (0,T/3,0),
+(0,2T/3,0), (0,T,0).
+
+Knots and control points can be added by clicking on a point on the
+horizontal coordinate axes. The new knot value is the coordinate of the
+point on the horizontal axis that was chosen.
+
+Use the knot insertion algorithm to change the the control points in such a
+way that the curve is preserved. In general, two old control points have to
+be moved to new locations, as it is illustrated in deBoor's paper, Fig.
+11.3. In that Figure the new knot    is assumed to be between old knots
+and   . The old control points corresponding to triples of knots    and
+have to be modified. The figure in the paper explains the geometry for the
+modification. The control point corresponding to the knots    is denoted   .
+The new points cut the line segments between the old points in the same
+ratio as the inserted knot cuts the interval between certain knot values,
+which are shown in the figure.
+
+This procedure will preserve the equivalence between the horizontal
+coordinate of a point on the curve and the parameter value for that point as
+long as the control points are moved only vertically.
+
+Animation
+
+One of the ways to animate the scene is to use the callback function
+attached to the SoTimerSensor to update all necessary transform nodes; in
+the single-step mode, the same function is called once.
+
+Before starting the animation, either copy the scene graph, or save the
+initial transform nodes.
+
+Unfortunately, you cannot ask Inventor to compute a value of a B-spline for
+a given parameter value. Thus, you will have to implement B-spline
+calculations yourself using deBoor's algorithm.
+
+Another non-trivial calculation that you will need is arclength
+reparametrization of the motion path. A detailed description of this
+calculation with pseudocode will be available.
+
+For each animation step, you will need to integrate the speed (use the
+Simpson's formula for numerical integration) to obtain the distance along
+the curve to the next position of the object. Once you have this distance,
+use the arclength reparametrization to find the position of the point on the
+curve.
+
+As the orientation is controlled directly, no integration is necessary. The
+only thing that you will need to compute is the tangent vector to the motion
+path, which serves as the Z axis for the coordinate system in which the
+rotation is specified. The formulas for the tangent vectors are obtained by
+differentiating the formulas for the spline with respect to the parameter.
+
+To save frames on the disk, use SoOffScreenRenderer. Uncompressed frames
+take a lot of disk space; once you are done with an animation, convert it to
+MPEG using movieconvert and remove the frames.
+
+What to Hand In
+
+Assignment 7.
+
+You should have the 1D spline editor (``time window'') and spline
+calculations working; if one clicks on a point on the time axis in the edit
+window, the program should print out the value of the spline at that point.
+This part will account for 30
+
+Assignment 8.
+
+In addition to your working code make a 4 sec animation. The animation
+should contain the following: a bouncing ball; a plane-like object (minimal
+version --- a cylinder with planes for wings) flying in a figure eight
+around two boxes and landing smoothly decreasing its speed to zero. During
+the flight the plane should wave its wings a couple of times.
+
+Both objects should be moving at the same time. Feel free to add anything
+you want to the animation or replace the boring objects with something more
+interesting; just make sure that the same functionality is clearly
+demonstrated.
+
+----------------------------------------------------------------------------
+
+Denis Zorin

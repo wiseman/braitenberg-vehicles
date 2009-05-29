@@ -1,0 +1,706 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Michael Travers">
+   <meta name="GENERATOR" content="Mozilla/4.5 [en] (Win95; I) [Netscape]">
+   <meta name="Description" content="Documentation for Skij, a Java-based Scheme implementation">
+   <meta name="KeyWords" content="Java, Scheme, scripting, debugging">
+   <title>Skij Home Page</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#FF0000" vlink="#4040FF" alink="#0000FF">
+&nbsp;
+<table COLS=2 WIDTH="100%" >
+<tr>
+<td>
+<center>
+<h1>
+<font face="Arial,Helvetica">Skij: Scheme in Java for Interactive Debugging
+and Scripting&nbsp;</font></h1></center>
+
+<center>
+<h3>
+Michael Travers (<a href="mailto:mt@watson.ibm.com">mt@watson.ibm.com</a>)</h3></center>
+
+<center><a href="http://www.watson.ibm.com">IBM T. J. Watson Research Center</a></center>
+</td>
+
+<td>
+<center><img SRC="skijcup.jpg" height=301 width=277></center>
+</td>
+</tr>
+</table>
+
+<h3>
+Contents:</h3>
+
+<li>
+<a href="#skij">What is Skij?</a></li>
+
+<li>
+<a href="#why">Why would I want to use Skij?</a></li>
+
+<li>
+<a href="#scheme">What is Scheme?</a></li>
+
+<li>
+<a href="#scripting">What's a scripting language?</a></li>
+
+<li>
+<a href="#download">How do I download and install Skij?</a></li>
+
+<li>
+<a href="#run">How do I run Skij?</a></li>
+
+<li>
+<a href="#manipulate">How does Skij let you manipulate Java objects?</a></li>
+
+<li>
+<a href="#extensions">What other Scheme extensions does Skij provide?</a></li>
+
+<li>
+<a href="#different">What parts of Scheme are missing or nonstandard in
+Skij?</a></li>
+
+<li>
+<a href="#notes">Implementation Notes</a></li>
+
+<li>
+<a href="#history">History</a></li>
+
+<li>
+<a href="../javadoc/index.html"><b>New:</b> Javadoc</a></li>
+
+<br><a NAME="skij"></a>
+<h3>
+What is Skij?</h3>
+A small <a href="#scheme">Scheme</a> interpreter, written in and running
+in Java, with extensions that allow a user to <a href="#manipulate">interactively
+create, inspect, manipulate, and script arbitrary Java objects</a>.
+<p>Skij is also "Jikes" spelled backwards, sort of. Skij comes from the
+same <a href="http://www.research.ibm.com/topics/popups/innovate/java/html/tools.html">research
+group</a> that brought you the <a href="http://www.alphaWorks.ibm.com/formula/jikes">Jikes
+Compiler</a> and <a href="http://www.alphaWorks.ibm.com/formula/jikesdebugger">Jikes
+Debugger</a>.&nbsp;<a NAME="why" </a></a>
+<h3>
+Why would I want to use Skij?</h3>
+There are a number of different ways to use Skij:
+<dl>
+<dt>
+<b>Debugging</b></dt>
+
+<dd>
+Skij gives you hands-on access to your own in-progress Java applications.
+You can effectively control the operation of Java objects from within the
+VM. Tests can be performed on the fly without having to go through a compilation
+cycle.</dd>
+
+<dt>
+<b>Experimentation</b></dt>
+
+<dd>
+You can use Skij to interactively try out a set of Java APIs. This is especially
+useful where the documentation is inaccurate or incomplete (all too common).</dd>
+
+<dt>
+<b>Scripting and Rapid Prototyping</b></dt>
+
+<dd>
+An interactive, typeless interpreter permits faster development of applications,
+especially when performing "glue" tasks of connecting and <a href="#scripting">scripting</a>
+pre-existing components.</dd>
+
+<dt>
+<b>Expressiveness</b></dt>
+
+<dd>
+Scheme includes important language features not found in Java, and can
+thus make more compact and expressive programs for certain tasks.</dd>
+</dl>
+Skij was originally intended to be chiefly a debugging and experimentation
+interface to Java, but it has been also used to develop applications. Being
+entirely interpreted, it is not very fast, but still quite suitable for
+non-speed-critical uses.&nbsp;<a NAME="scheme"></a>
+<h3>
+What is Scheme?</h3>
+Scheme is a compact and elegant dialect of Lisp, invented in 1975 by Guy
+Steele and Gerald Sussman. It is widely used as a teaching and research
+language. Its small size and simple semantics make it easy to implement,
+yet it has many advanced features, including higher-order functions, first-class
+continuations, and macros. For more information, see the <a href="http://www.swiss.ai.mit.edu/scheme-home.html">Scheme
+home page</a> or the online <a href="http://www.swiss.ai.mit.edu/~jaffer/r4rs_toc.html">language
+specification</a>. The excellent computer science textbook, <i><a href="http://mitpress.mit.edu/sicp/sicp.html">Structure
+and Interpretation of Computer Programs</a></i>, treats the elements of
+Scheme programming and implementation.
+<h3>
+<a NAME="scripting"></a>What's a scripting language?</h3>
+The term "<a href="http://www.sunlabs.com/~ouster/scripting.html">scripting
+language</a>" generally refers to interpreted, late-binding, loosely-typed
+languages that are designed to "glue" existing components together. The
+canonical examples are <a href="http://www.perl.org/">Perl</a> and <a href="http://www.tcltk.com/">Tcl</a>,
+and perhaps Visual Basic. In the scripting model, components are written
+in "system programming language" and then glued together with the scripting
+language, often by separate people or organizations. Scripting languages
+have found widespread usage for rapid development of user interfaces and
+web-based applications, among other things.
+<p>Skij can be thought of as a scripting language for Java. It has the
+standard characteristics of a scripting language: it is compact, it can
+be used interactively, and it provides access to the features of the underlying
+platform. Since it is an extension of Scheme, it inherits Scheme's elegance
+and power.
+<p>The distinction between scripting and system languages is not a hard
+and fixed one. In fact, some of the best programming environments have
+managed to use high-level languages like Lisp or Smalltalk for tasks at
+every level of the system architecture, from user interface to device drivers.
+However, such grand unifications are hard to achieve with mainstream languages.
+<p>Other Scheme-like scripting languages include <a href="http://www.red-bean.com/guile/">Guile</a>,
+which is being developed as a standard scripting interface for Gnu software,
+and George Carette's <a href="http://www.cs.indiana.edu/scheme-repository/imp/siod.html">SIOD</a>.
+Other scripting languages for the Java environment include <a href="http://sunscript.sun.com/java/">Jacl</a>
+from Sun (a version of Tcl), <a href="http://www.python.org/jpython/">JPython</a>,
+and&nbsp; <a href="http://www.ooi.com/beanshell/">BeanShell.</a>
+<p>There are <a href="http://grunge.cs.tu-berlin.de/vmlanguages.html#lispandco">other
+Scheme implementations for Java</a>, notably <a href="http://www.cygnus.com/~bothner/kawa.html">Kawa</a>.
+Kawa compiles Scheme to Java byte codes, so it will execute Scheme faster
+than Skij. However, Skij has superior access to Java facilities, and is
+smaller and generally simpler. Kawa is probably better if you want an almost
+full-blown compiled Scheme; Skij is probably better if you want a small
+Scheme scripting interface to the Java universe.&nbsp;<a NAME="download"></a>
+<h3>
+How do I download and install Skij?</h3>
+Skij should be able to run on any JDK1.1-compliant Java implementation.
+The inspector requires <a href="http://java.sun.com/products/jfc/index.html">Swing</a>,
+which is available for download from Sun.
+<p>1) Download and expand the file <b>skijpkg.zip</b>. If you are reading
+this page from a local file you probably have already done this. If not,
+look for the package on IBM's <a href="http://www.alphaworks.ibm.com/formula/skij">alphaWorks</a>
+site. IBM internal users can click <a href="http://w3.watson.ibm.com/~mt/skij/skijpkg.zip">here</a>.
+<p>2) The package contains a file called <b>skij.jar</b>, which contains
+the Java and Scheme code used by Skij. Put this file in your Java CLASSPATH
+variable.
+<br><a NAME="run"></a>
+<h3>
+How do I run Skij?</h3>
+There are several ways to run Skij: standalone, as an applet, or in conjunction
+with another application.
+<h5>
+<i><font size=+0>Standalone:</font></i></h5>
+After <a href="#download">downloading</a>, enter the following at your
+OS prompt:
+<ul>
+<pre>> java com.ibm.jikes.skij.Scheme</pre>
+</ul>
+This starts up a Scheme listener on the standard Java console (<tt>System.in</tt>
+and <tt>.out</tt>). If for some reason you don't want to use the Java console,
+you can create a listener window by the alternative invocation:
+<ul>
+<pre>> java com.ibm.jikes.skij.Scheme -init "(make-awt-listener-window)"</pre>
+</ul>
+If you are an Emacs user, you will probably want to use the console interface
+by means of the M-x shell-mode or M-x run-scheme commands. This gives you
+free parenthesis matching, history, and other useful tools.
+<h5>
+<i><font size=+0>As an applet:</font></i></h5>
+If your browser supports JDK 1.1, you can try out a <a href="skijlet.html">Skij
+applet</a> right now. As far as I know, only Netscape 4.06 and above supports
+enough of JDK 1.1 to run Skij.
+<h5>
+<i><font size=+0>As an add-on debugging interface for Java applications:</font></i></h5>
+
+<h5>
+<i>Starting Skij from Java</i></h5>
+You can add Skij to an existing Java application (or applet) as a debugging
+faclity. To bring up a Skij listener on the Java console (<tt>System.in/out</tt>),
+you can just execute this line from within your Java code (for instance,
+at the end of your <tt>main</tt> method):
+<pre>&nbsp;&nbsp;&nbsp;&nbsp; com.ibm.jikes.skij.Scheme.start();</pre>
+If you prefer not to use the Java console as a Skij listener, you can create
+a Listener window via the following code:
+<ul>
+<pre>com.ibm.jikes.skij.Scheme.start("(make-awt-listener-window)");</pre>
+</ul>
+To start a console listener in its own thread, you can say:
+<ul>
+<pre>com.ibm.jikes.skij.Scheme.start(null, true);</pre>
+</ul>
+If you want to include a call to Skij from within an application; but still
+allow the application to be compiled without Skij being present, you can
+use this bit of trickery. It will create a Skij listener in the console,
+with its own thread.:
+<pre>&nbsp;&nbsp;&nbsp;&nbsp; try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Class.forName("com.ibm.jikes.skij.ListenerConsole").newInstance();
+&nbsp;&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp;&nbsp;&nbsp; catch (Throwable e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Error starting Skij: " + e.toString());
+&nbsp;&nbsp;&nbsp;&nbsp; }</pre>
+Substitute <tt>ListenerWindow</tt> for <tt>ListenerConsole</tt> in the
+above to bring up a separate Skij window.
+<br>&nbsp;
+<h5>
+<i>Starting your application from Skij</i></h5>
+Alternatively, you can start Skij running and bring up your application
+from within it, by typing something like:
+<ul>
+<pre>(in-own-thread&nbsp;
+&nbsp;&nbsp; (start-application '<i>mypackage.MyAppClas</i>s <i>[args]</i>))</pre>
+</ul>
+This calls the application's <tt>main</tt> method in a new thread, leaving
+the real main thread to run Skij. String arguments can be included in the
+call to start-application.
+<br>&nbsp;
+<h5>
+<i>Accessing application objects from Skij</i></h5>
+Once you have Skij running alongside your application, there is still the
+issue of how Skij is to get ahold of your application's objects. There
+are a few different ways to do this.
+<p>If the application has defined public classes with public and static
+methods or fields, these can be referred to by name using the static forms
+of the <tt>invoke</tt> and <tt>peek</tt> functions described below.
+<p>You can also have an application add its objects to Skij's top-level
+environment through the following call:
+<ul><tt>com.ibm.jikes.skij.Environment.top.addBinding(Symbol.intern(<i>name</i>),
+<i>value</i>);</tt></ul>
+Where <i><tt>name</tt></i> is a string and <i><tt>value</tt></i> is any
+application object.
+<p>You can also invoke the Skij inspector from Java code (you must have
+Swing installed and in your classpath):
+<ul>
+<pre>com.ibm.jikes.skij.Scheme.inspect(<i>object</i>);</pre>
+</ul>
+Once you have inspectors open, the object in the topmost inspector window
+can be accessed from a Skij listener through the <tt>inspected</tt> variable&nbsp;<a NAME="manipulate"></a>
+<h3>
+How does Skij let you manipulate Java objects?</h3>
+Skij includes a number of primitive&nbsp; functions that allow you to create
+and manipulate arbitrary Java objects. These are <tt>new</tt>, <tt>invoke</tt>,
+<tt>peek</tt>,
+<tt>poke</tt>,
+<tt>invoke-static</tt>,
+<tt>peek-static</tt>,
+and <tt>poke-static</tt>. Some general rules apply to all of these procedures:
+<ul>
+<li>
+Null values can be returned from <tt>invoke</tt>, <tt>peek</tt>, and the
+corresponding static functions.</li>
+
+<li>
+Class arguments must be either the fully qualified class name as a string
+or symbol; or a <tt>java.lang.Class</tt> object. Method and field names
+can be either strings or symbols.</li>
+
+<li>
+In versions of Java prior to 1.2, only public classes, constructors, methods,
+and fields may be accessed. This is a limitation of the Java Reflection
+API. In JDK 1.2 and above, it is possible to access anything. Beta versions
+of JDK 1.2 are available from Sun's <a href="http://developer.java.sun.com/developer/index.html">Java
+Developer Connection</a> website.</li>
+
+<li>
+Boxing and unboxing of Java primitive types is performed automatically
+where appropriate.</li>
+</ul>
+
+<dl><tt>(<b>new</b> <i>class</i> [<i>args</i>]*)</tt>
+<dd>
+This procedure creates and returns a Java object of the specified class,
+passing the arguments along to the appropriate constructor.</dd>
+
+<dl>Example:
+<dd>
+<tt>(define button (new 'java.Awt.Button "Press Me"))</tt></dd>
+
+<dd>
+</dd>
+</dl>
+<tt>(<b>invoke</b> <i>object method-name</i> [<i>args</i>]*)</tt>
+<dd>
+Invoke the named method on the object, with the specified arguments. Returns
+the value returned by the method, if any.</dd>
+
+<dd>
+Examples:</dd>
+
+<dl>
+<dd>
+<tt>(invoke button 'setText "Please Press Me")</tt></dd>
+
+<dd>
+<tt>(invoke window 'add button)</tt></dd>
+
+<dd>
+</dd>
+</dl>
+<tt>(<b>invoke-static</b> <i>class method-name</i> [<i>args</i>]*)</tt>
+<dd>
+Invoke the named static method of <i>class</i>, which may be a class object
+or the name of a class, with the specified arguments. Returns the value
+returned by the method, if any.</dd>
+
+<dd>
+Example:</dd>
+
+<dl>
+<dd>
+<tt>(invoke-static 'java.lang.Thread 'sleep (long 100))</tt></dd>
+
+<dd>
+</dd>
+</dl>
+<tt>(<b>peek</b> <i>object field-name</i>)</tt>
+<dd>
+Return the value of the named field.</dd>
+
+<dd>
+Example:</dd>
+
+<dl>
+<dd>
+<tt>(peek (invoke button 'getSize) 'width)</tt></dd>
+</dl>
+<tt>(<b>peek-static</b> <i>class field-name</i>)</tt>
+<dd>
+Return the value of the named field.</dd>
+
+<dd>
+Example:</dd>
+
+<dl>
+<dd>
+<tt>(peek-static 'java.lang.System 'out)</tt></dd>
+
+<dd>
+</dd>
+</dl>
+<tt>(<b>poke</b> <i>object field-name new-value</i>)</tt>
+<dt>
+<tt>(<b>poke-static</b> <i>class field-name new-value</i>)</tt></dt>
+
+<dd>
+Sets the value of the named field.</dd>
+</dl>
+
+<p><br><a NAME="extensions"></a>
+<h3>
+What other Scheme extensions does Skij provide?</h3>
+
+<h4>
+Evaluation and reflection</h4>
+
+<dl>
+<dt>
+<tt>(<b>eval</b> <i>form</i>)</tt></dt>
+
+<dt>
+<tt>(<b>eval</b> <i>form</i> <i>env</i>)</tt></dt>
+
+<dd>
+Evaluate the form.</dd>
+
+<dt>
+<tt>(<b>current-environment</b>)</tt></dt>
+
+<dt>
+<tt>(<b>global-environment</b>)</tt></dt>
+
+<dd>
+There are no Scheme access functions for environments yet, but you can
+use <tt>invoke</tt> to call the Java accessors.</dd>
+
+<br>&nbsp;
+<dt>
+#, (reader syntax)</dt>
+
+<dd>
+This reader syntax will eval the following form at read-time and insert
+it into the expression being read. Based on the Common Lisp #. feature.</dd>
+</dl>
+
+<h4>
+Threads and synchronization</h4>
+
+<dl>
+<dt>
+<tt>(<b>run-in-thread</b> <i>thunk</i>)</tt></dt>
+
+<dl>
+<dt>
+Starts a new Java thread which will invoke <i>thunk</i>, which should be
+a procedure of zero arguments. Examples:</dt>
+
+<dl>
+<dt>
+<tt>(run-in-thread (lambda () (print (fact 1000)))</tt></dt>
+</dl>
+
+<dt>
+&nbsp;</dt>
+</dl>
+
+<dt>
+<tt>(<b>synchronized</b> <i>object expression</i>*)</tt></dt>
+
+<dd>
+Evaluate expressions as in a <tt>begin</tt>, but performs Java synchronization
+around the evaluation. <i><tt>object</tt></i> specifies the object that
+holds the synchronization flag.</dd>
+</dl>
+
+<h4>
+Event callbacks</h4>
+Skij defines an adaptor classes that allow you to set up Scheme procedures
+to handle Java AWT events. This class is called <tt>GenericCallback</tt>
+and implements as many of the Listener interfaces as I've gottern around
+to throwing into it. A <tt>GenericCallback</tt> object contains a Skij
+procedure of one argument. When an event is signalled, the procedure gets
+called with the event object.
+<br>Example:
+<ul><tt>(define b (new 'java.awt.Button 'pressMe))</tt>
+<br><tt>(define listener (new 'com.ibm.jikes.skij.GenericCallback</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(lambda (event) (print "I've been pressed"))))</tt>
+<br><tt>(invoke b 'addActionListener listener)</tt></ul>
+Since events are self-identifying, it doesn't hurt anything to have all
+Listeners and all events lumped into a single type of handler.
+<h4>
+Exception handling</h4>
+Skij's ability to deal with Java exceptions is limited to the <tt>catch</tt>
+special form, which lets the program get its hands on the Java exception
+object.
+<dl>
+<dt>
+<tt>(<b>catch</b> <i>body</i>*)</tt></dt>
+
+<dd>
+Evaluate body. If a Java exception occurs within the body, cease evaluation
+and return the exception object as the value of the catch form.</dd>
+</dl>
+
+<h4>
+Dynamic lookup</h4>
+Skij includes a way to do dynamic variable lookup, in addition to normal
+Scheme lexical binding. Dynamic binding is implemented as an alternative
+form of value lookup. Normally the value for a variable is searched for
+using the lexical chain of defining environments. In a dynamic lookup,
+the search chain is through the dynamic environments (or call tree).
+<br>&nbsp;
+<dl>
+<dt>
+<tt>(<b>dynamic</b> <i>name</i>)</tt></dt>
+
+<dd>
+Look up the value of <i>name</i> dynamically.</dd>
+</dl>
+
+<blockquote>
+<h5>
+example:</h5>
+</blockquote>
+
+<blockquote>
+<pre><tt>(define (html-out tag)
+&nbsp; (display (string-append "&lt;" tag ">") (dynamic *html-output*)))
+
+(let ((*html-output* (new 'com.ibm.jikes.skij.OutputPort (new 'java.io.FileOutputStream file))))
+&nbsp; (tag "body"))</tt></pre>
+</blockquote>
+Dynamic binding is considered dangerous (and inefficient), and it may be
+removed from the language. It's a good idea to use a variable-naming convention,
+as above, to indicate variables that will be subject to dynamic lookup.
+<br>&nbsp;
+<h4>
+Other Extensions:</h4>
+
+<dl>
+<dt>
+<tt>(<b>trace</b> <i>boolean</i>)</tt></dt>
+
+<dd>
+turns tracing output on or off.</dd>
+
+<br>&nbsp;
+<dt>
+<tt>(<b>backtrace</b> [<i>condition</i>])</tt></dt>
+
+<dd>
+Print a Scheme backtrace for condition, or the last condition thrown to
+top level if the argument is omitted.</dd>
+
+<br>&nbsp;
+<dt>
+<tt>(<b>require</b> <i>facility</i>)</tt></dt>
+
+<dd>
+Loads files from the library. Facility is a symbol/string, ie, 'inspect.
+Most library functions autoload so you don't need to use this.</dd>
+
+<br>&nbsp;
+<dt>
+<b><tt>&lt;&lt;&lt;</tt></b> (variable)</dt>
+
+<dd>
+contains last value printed by the listener.</dd>
+</dl>
+
+<h4>
+Inspector</h4>
+Skij contains an inspector facility, which makes use of <a href="http://java.sun.com/products/jfc/index.html">Swing</a>,
+Sun's new interface toolkit. To use the inspector, you must download and
+install Swing before starting Java. This facility is still somewhat primitive
+but quite useful for finding your way through Java structure.
+<br>&nbsp;
+<dt>
+<tt>(<b>inspect</b> object)</tt></dt>
+
+<dd>
+Create a new inspector window looking at object.</dd>
+
+<dt>
+<b><tt>inspected</tt></b></dt>
+
+<dd>
+This variable always contains the object displayed by the topmost inspector
+window.</dd>
+
+<br><a NAME="different"></a>
+<h3>
+What parts of Scheme are missing or different in Skij?</h3>
+Skij departs from the published Scheme standards in a few ways:
+<ul>
+<li>
+Symbols are case-sensitive.</li>
+
+<li>
+Strings are immutable since they are implemented using the <tt>java.lang.String</tt>
+class. Scheme's <tt>string-set!</tt> function is not implemented.</li>
+
+<li>
+<tt>call-with-current-continuation</tt> only supports escape procedures
+(that is, a continuation object may only be used within the dynamic context
+of the call/cc that generated it).</li>
+
+<li>
+The reader can't deal with atsign in symbol names or strings that cross
+lines (this will be fixed eventually).</li>
+
+<li>
+The Scheme numeric types and functions are neglected; there are no bignums,
+rationals, or complex numbers. The reader and arithmetic functions support
+Java <tt>Integer</tt>s and <tt>Double</tt>s only.</li>
+
+<li>
+Scheme's hygenic macros are not supported. Instead, there is a <tt>defmacro</tt>
+form that is similar to the Common Lisp facility.&nbsp;<a NAME="notes"></a></li>
+</ul>
+
+<h3>
+Implementation Notes</h3>
+The most important design principle in Skij: Skij objects are Java objects,
+and any Java object can be a Skij object.
+<p>Skij uses Java's built-in classes to represent the standard Scheme types
+where it can, even though in some cases this causes divergence from the
+Scheme standard. All numbers are represented in boxed form using the built
+in Java.lang.Integer and java.lang.Double classes, and Scheme strings are
+represented using java.lang.String. Scheme vectors are represented by Java
+arrays.
+<p>Skij defines its own classes for pairs, various types of procedures,
+environments, ports, and a few others. There are two types of environment.
+The global environment is implemented using Java hashtables, while other
+environments use lists.
+<p>Dynamic access to Java objects is accomplished by means of the Java
+Reflection API, extended to support fully dynamic method invocation.
+<p>The Scheme reader is implemented using Java's StreamTokenizer object.
+This will probably be changed, since it is not entirely adequate to the
+task.
+<br>&nbsp;
+<h3>
+<a NAME="history"></a>History</h3>
+
+<h4>
+Version 1.7 (January 99)</h4>
+New features:
+<br>- Object graph inspector: <tt>(graph-inspect <i>&lt;obj></i>)</tt>
+<br>- Javadoc for Skij internals
+<br>Bug fixes:
+<br>- fix for cond
+<br>- fix for Swing listeners
+<br>- allow alternate defmacro syntax: (defmacro name (arg...) . body)
+<br>- fix bug in method invocation; was missing some methods when primtive
+types were involved.
+<br>- fix constructor lookup bug
+<br>- speedups by moving Nil lookup out of inner loops
+<br>- use classes rather than version string to determine what flavor of
+Java we have.
+<br>- removed some unused .misc classes.
+<h4>
+Version 1.6 (December 98)</h4>
+- Fixes for JDK 1.2
+<br>- better support for classloaders
+<br>- -window init option: start up in window instead of console
+<br>- added fluid-let
+<br>- instanceof and other procs made into primitives
+<br>- significant speedups
+<br>- bug fix for bound?
+<br>- cond supports else and => properly
+<br>- added method-apropos
+<h4>
+Version 1.5 (November 98)</h4>
+New features:
+<br>- applet runner
+<br>- where-is to find library functions
+<br>- java-backtrace available for appropriate exceptions
+<br>- -quiet init option suppresses some messages
+<p>Bug fixes:
+<br>- fix interaction between apropos and autoloading
+<br>- better handling of encapsulated exceptions
+<br>- load wasn't closing files properly
+<br>- dynamic-winds to handle file closing in other cases
+<br>- start-application was buggy
+<br>- reorganized some libraries
+<br>- fixed nasty bug in apply
+<h4>
+Version 1.4 (October 98)</h4>
+New features:
+<br>- libraries can load from .class files
+<br>- apropos
+<br>- flags to control tail-calling and saving macro sources
+<p>Bug fixes:
+<br>- better direction of error messages and other console output
+<br>- applet support
+<br>- get-method and other reflection tools
+<br>- string output quotes properly
+<h4>
+Version 1.2 (August 98)</h4>
+New features:
+<br>- setf, incf, decf, push (modelled on Common Lisp feature)
+<br>- can compile under both JDK 1.1 and 1.2
+<p>Bug fixes:
+<br>- autoloaded functions now work correctly in all contexts
+<br>- file loading is <i>much</i> faster
+<br>- errors in loaded files are handled better
+<br>- catch/continuation interactions are fixed
+<br>- some fixes for instanceof
+<br>- toString for lists containing null elements
+<h4>
+Version 1.1 (Bastille Day 98)</h4>
+New features:
+<br>- support for access to nonpublic members in JDK 1.2
+<br>- backtrace
+<br>- more flexibility in define-memoized
+<br>- more support for JDK1.2
+<br>- faster top-level environments; can store null
+<p>Bug fixes:
+<br>- dynamic var lookup
+<br>- dynamic lookup and recursion was causing stack growth under tailcalling
+<br>- set! of dotted arg var
+<br>- inexact->exact
+<br>- start-application
+<h4>
+Version 1.0 (May 98):</h4>
+- Welcome to Skij
+<br>&nbsp;
+<li>
+<a NAME="other"></a></li>
+
+<br>&nbsp;
+</body>
+</html>

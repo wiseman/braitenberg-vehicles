@@ -1,0 +1,10 @@
+package org.heavymeta.vehicles;
+
+public class SchemeEncoder
+{
+    static public String encode (String text)
+    {
+	String s = text;
+
+	s = searchAndReplace(s, "\\", "\\\\");
+	s = searchAndReplace(s, "\"", "\\\"");

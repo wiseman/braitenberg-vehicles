@@ -1,0 +1,22 @@
+
+package org.heavymeta.vehicles;
+
+import java.io.File;
+import com.ibm.jikes.skij.*;
+
+public class Parser {
+
+    static boolean schemeIsInitialized = false;
+
+    public World parseWorldFile(File file)
+	throws SchemeException
+    {
+	if (!schemeIsInitialized) {
+	    Scheme.quiet = true;
+	    Scheme.evalString("(load-resource \"lib/vehicles.scm\"" +
+			      "\"org.heavymeta.vehicles.Parser\")");
+	    schemeIsInitialized = true;
+	}
+	return (World) Scheme.evalString("(load-world \"" + file.toString() + "\")");
+    }
+}

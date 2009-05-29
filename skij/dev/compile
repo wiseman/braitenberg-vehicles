@@ -1,0 +1,3 @@
+javac -g com/ibm/jikes/skij/*.java com/ibm/jikes/skij/misc/*.java com/ibm/jikes/skij/util/*.java
+
+

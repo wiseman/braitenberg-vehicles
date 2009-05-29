@@ -1,0 +1,10 @@
+package org.heavymeta.vehicles;
+
+
+public interface Renderer {
+
+    public abstract void render(World w);
+    public abstract void sync(Object outputDevice);
+}
+
+

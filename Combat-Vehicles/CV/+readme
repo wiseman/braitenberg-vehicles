@@ -1,0 +1,32 @@
+
+1. Load the base code: Load a-simple-defystem.lisp, then load
+   vehicles.system.
+
+2. Load the renderer you'd like to try.  For 2D, use cg-renderer.lisp.
+   For 3D, use qd3d-renderer.lisp (see http://nd1.neodesic.com/lisp/qd3d/
+   for the QuickDraw 3D interface this requires.)
+
+3. Run and animate a simulation.  E.g.,
+
+(v:animate 'v:common-graphics-renderer
+           :world (v:load-world (choose-file-dialog))
+           :stop-time 30                 ; 30 seconds simulated time
+           :window-size 600              ; 600 x 600 window
+           :scale 50                     ; zoom out (default is 20)
+           :labels? T)                   ; display object names
+
+
+(v:animate 'v:qd3d-renderer
+           :world (v:load-world (choose-file-dialog))
+           :start-time 15                ; start 15 sim seconds in
+           :stop-time 30                 ; end 15 sim seconds later
+           :window-size 600              ; 600 x 600 window
+           :labels? T                    ; display object names
+           :renderer :wireframe)         ; wireframe (default is :interactive)
+
+           
+
+
+
+
+

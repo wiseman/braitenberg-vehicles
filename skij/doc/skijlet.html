@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.5b2 [en] (Win95; I) [Netscape]">
+   <META NAME="Author" CONTENT="Michael Travers">
+   <META NAME="KeyWords" CONTENT="Scheme, Scripting, Java, Debugging, Interactive">
+   <TITLE>Skijlet Page</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#FF0000" VLINK="#4040FF" ALINK="#0000FF">
+
+<CENTER><IMG SRC="newmasthead.gif" HEIGHT=54 WIDTH=600></CENTER>
+
+<P><FONT FACE="Arial,Helvetica"><FONT SIZE=-1><A HREF="http://www.alphaworks.ibm.com/formula/skij">Skij</A>
+is an interactive Scheme interpreter for the Java environment. Here you
+can try out Skij running as an applet, assuming your <A HREF="#browsers">browser</A>
+supports enough of the JDK 1.1 version of Java. You can also <A HREF="http://www.alphaworks.ibm.com/formula/skij">download</A>
+Skij to run as an application or for use as a debugging interface for your
+own Java applications.</FONT></FONT>
+<BR>&nbsp;
+<P><BR>
+<CENTER>
+<P><APPLET archive="../skij.jar" code="com/ibm/jikes/skij/Skijlet.class" width=600 height=250></APPLET><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>;</FONT></FONT></CENTER>
+
+<BR>&nbsp;
+<P><BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<P><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>At the <B>skij></B> prompt,
+you can type Scheme forms to be evaluated. Examples follow; some browsers
+will allow you to cut and paste this text into the applet. Note that you
+are limited by the applet security model; so much of Java functionality
+can't be accessed. If you run Scheme as an application these limitations
+disappear. The applet is also limited by the listener interface; I prefer
+to run Skij under Emacs, which gives you parenthesis matching, a history
+mechanism, and automatic indentation.</FONT></FONT>
+<P><B><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>The classic recursive
+factorial:</FONT></FONT></B>
+<DIR><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>(define (fact n) (if (=
+n 1) 1 (* n (fact (- n 1)))))</FONT></FONT>
+<BR><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>(fact 12)</FONT></FONT></DIR>
+<B><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>An example of interactive
+Java object manipulation:</FONT></FONT></B>
+<DIR><I><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>; make a window</FONT></FONT></I>
+<BR><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>(define w (new 'java.awt.Frame
+"my window"))</FONT></FONT>
+<BR><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>(invoke w 'setSize 300 200)</FONT></FONT>
+<BR><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>(invoke w 'setVisible #t)</FONT></FONT>
+<P><I><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>; make a button</FONT></FONT></I>
+<BR><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>(define b (make-button "Press
+Me"</FONT></FONT>
+<BR><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(lambda (evt)</FONT></FONT>
+<BR><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(print "Thanks, that felt good"))))</FONT></FONT>
+<BR><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>(invoke w 'add b)</FONT></FONT>
+<BR><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>(invoke w 'show)&nbsp; <I>;
+redisplay</I></FONT></FONT></DIR>
+<B><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>Get information about an
+existing Java object:</FONT></FONT></B>
+<BLOCKQUOTE><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>(describe *applet*)</FONT></FONT>
+<BR><I><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>Note: if you have Swing
+installed on your system, try inspect instead of describe.</FONT></FONT></I></BLOCKQUOTE>
+<B><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>See the definition of a Scheme
+procedure:</FONT></FONT></B>
+<BLOCKQUOTE><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>(ppp make-button)
+<I>; pretty-print procedure</I></FONT></FONT></BLOCKQUOTE>
+<B><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>Skij can also call JavaScript
+methods:</FONT></FONT></B>
+<BLOCKQUOTE><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>(jsinvoke *javascript-window*
+'moveBy 100 20)</FONT></FONT>
+<BR><I><FONT FACE="Arial,Helvetica"><FONT SIZE=-1>Note: this doesn't always
+work due to browser idiosyncracies.</FONT></FONT></I></BLOCKQUOTE>
+
+<HR WIDTH="100%">
+<H3>
+<A NAME="browsers"></A><FONT FACE="Arial,Helvetica">Browsers</FONT></H3>
+<FONT FACE="Arial,Helvetica"><FONT SIZE=-1>Skijlet has been verified to
+work on these browsers:</FONT></FONT>
+<UL>
+<LI>
+<FONT FACE="Arial,Helvetica"><FONT SIZE=-1><A HREF="http://home.netscape.com/download/">Netscape
+Communicator 4</A>.</FONT></FONT></LI>
+
+<LI>
+<FONT FACE="Arial,Helvetica"><FONT SIZE=-1>HotJava</FONT></FONT></LI>
+
+<LI>
+<FONT FACE="Arial,Helvetica"><FONT SIZE=-1><A HREF="http://www.icesoft.no/Elite">Elite</A>,
+a Java-based browser from Norway</FONT></FONT></LI>
+</UL>
+
+<HR WIDTH="100%"><FONT FACE="Arial,Helvetica"><FONT SIZE=-1><B>Michael
+Travers</B> / <A HREF="http://www.ibm.com">IBM</A> <A HREF="http://www.watson.ibm.com">T.
+J. Watson Research Center</A> / <A HREF="mailto:mt@watson.ibm.com">mt@watson.ibm.com</A></FONT></FONT>
+<BR>
+<HR WIDTH="100%">
+</BODY>
+</HTML>

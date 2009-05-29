@@ -1,0 +1,70 @@
+This directory contains some example Skij programs. They are selected
+to illustrate Skij's "special relationship" with Java.  If you want
+basic examples of Scheme programming, consult a textbook. I recommend
+Abelson & Sussman's Structure and Interpretation of Computer Programs:
+  http://mitpress.mit.edu/sicp/
+
+To load any of the examples in this directory, enter Skij and type:
+   (load "<filename>")
+where filename is the full pathname of the file.
+
+Example files:
+ buttons.scm	A window containing buttons that reproduce when clicked
+ browser.scm	Control a Web browser from Java, including access to Java API doc
+ sprites.scm	A simple animation and graphics package
+
+For more Scheme code examples, unpack the skij.jar file* and look in the lib/
+directory.  This code implements many of the Scheme standard procedures, and 
+is loaded on demand. There are also a good many extensions to Scheme to deal
+with Java-specific functions and interfaces to Java graphics and networking
+libraries.  Many of these interfaces are incomplete; that is, they just package
+up the few functions that I've found useful. You can use what's there as a guide
+to further implementation.
+
+ amb.scm	Nondeterministic computation through backtracking
+ apropos.scm	Apropos lets you find Scheme symbols that match a substring
+ boole.scm     	Scheme boolean procedures
+ char.scm	Scheme character procedures
+ cl.scm		Some Common-Lispy extensions
+ control.scm	Scheme control forms
+ defstruct.scm 	A primitive structure capability
+ delay.scm	Scheme delay and force 
+ dynamic.scm	Dynamic binding
+ encapsulate.scm	Procedure encapsulation for tracing
+ files.scm	File access
+ hashtable.scm	Hashtable interface
+ init.scm	Init file -- loaded when Skij starts up
+ inspect.scm	Inspector
+ interrupt.scm	A simple control panel with an interrupt button
+ io.scm		Scheme IO primitives
+ java.scm	Interfaces to basic Java functions
+ let.scm	LET, LETREC, etc.
+ listener.scm	Support for Skij listener windows
+ lists.scm	List primitives
+ macro.scm	Macros
+ memoize.scm	Memoized procedures
+ menu.scm	Support for Java menus
+ numeric.scm	Numeric primitives
+ pp.scm		Prettyprinter
+ proc.scm	Procedurs that deal with procedures
+ quasi.scm	Support for quasiquotation
+ random.scm	Random numbers
+ rsh.scm	Interface to Unix remote shell protocol
+ runtime.scm	Java runtime
+ server.scm	Internet server
+ string.scm	String manipulation
+ swing.scm	Swing UI interface
+ symbol.scm	Symbol primitives
+ tcp.scm	TCP interface
+ text-tracer.scm	A per-procedure trace facility
+ thread.scm	Thread interface
+ time.scm	Time functions
+ trace.scm	Tree-based trace facility
+ tree.scm	Interface to Swing tree widgets
+ vector.scm	Vector primitives
+ window.scm	AWT window interface
+ write.scm	Generate Scheme printed representation
+
+*you can unpack skij.jar by issuing the command
+  jar xvf skij.jar
+while connected to the distribution directory. 

@@ -1,0 +1,86 @@
+package org.heavymeta.vehicles;
+
+import javax.swing.*;
+import java.awt.*;
+
+
+public class VPanel extends JPanel {
+    public World world;
+    public VRenderer renderer;
+    
+    public JPanel canvas;
+    public JPanel buttons;
+    
+    public VPanel() {
+	this.setLayout(new BorderLayout());
+	
+	canvas = new JPanel();
+	canvas.setSize(300,250);
+	canvas.setLocation(0,0);
+	canvas.setBackground(new java.awt.Color(0, 0, 0));
+	
+	buttons = new JPanel();
+	
+	buttons.add(new JButton("Play"));
+	buttons.add(new JButton("Pause"));
+	buttons.add(new JButton("Rew"));
+	buttons.add(new JButton("FF"));
+	
+	buttons.setLocation(0, 250);
+	buttons.setBackground(new java.awt.Color(100, 100, 100));
+		
+	//		this.pack();
+    }
+    
+    public void paintComponent(Graphics g)
+    {
+	Log.debug("VPanel paintComponent");
+	buttons.paint(g);
+	renderer.frozen = true;
+	renderer.invalidateAll();
+	renderer.draw_whole_thing = true;
+	renderer.render();
+	renderer.frozen = false;
+    }
+
+    public void update(Graphics g)
+    {
+	paintComponent(g);
+    }
+	
+    public void addNotify() {
+	int width, height;
+	
+	System.out.println("Add");
+	super.addNotify();
+	
+	width = getSize().width;
+	height = getSize().height;
+	
+	System.out.println(width);
+	System.out.println(height);
+	
+	canvas.setLocation(0,0);
+	canvas.setSize(width, height-50);
+	buttons.setLocation(0, height-50);
+	buttons.setSize(width, 50);
+	add(canvas, "Center");
+	add(buttons, "South");
+    }	
+
+
+    /*
+    public void repaint(Rectangle r)
+    {
+	Log.debug("VPanel repaint " + r);
+    }
+    public void repaint(long tm, int x, int y, int width, int height)
+    {
+	Log.debug("VPanel repaint " + tm + ", " + x + ", " + y + ", " + width + ", " + height);
+    }
+    */    
+
+}
+
+
+ 

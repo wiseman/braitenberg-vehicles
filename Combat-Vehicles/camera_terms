@@ -1,0 +1,38 @@
+----------------------------------------------------------------------------
+[Image]  [Image] [Image]
+Next: Specification of Camera Up: Animating Camera Motion Previous:
+Cinematics of Camera
+----------------------------------------------------------------------------
+
+   Terminology of Camera Motion
+
+Dolly:
+     Move forward, along the line of sight of the camera (towards the object
+     of interest).
+Track:
+     Move horizontally, perpendicular to the line of sight of the camera.
+     More generally, move in a horizontal plane.
+Crane:
+     Raise the camera vertically.
+Tilt (Bank):
+     Rotate about the horizontal axis perpendicular to the line of sight of
+     the camera.
+Pan (Yaw):
+     Rotate about the vertical axis of the camera (after tilt).
+
+In addition, cameras have other parameters that can be animated:
+
+Zoom (in, out):
+     Change the angular field of view of the camera.
+Focus:
+     Change the focal depth, i.e. the distance at which objects are in
+     focus.
+Depth of Field:
+     Changing the aperture size has the effect of changing the depth of
+     field, i.e. the range of depths over which objects can be considered to
+     be in focus.
+
+----------------------------------------------------------------------------
+
+cs488@dino.uwaterloo.ca
+Wed Jun 7 15:18:34 EDT 1995
