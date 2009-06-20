@@ -5,7 +5,7 @@ three smart lamps that dim themselves when they sense nearby movement.
 Similar to worlds/world-2.lisp.
 
 
-* cv-3d-lo.mov
+* combat-2d.mov
 
 Vehicles--now with guns!
 
@@ -27,3 +27,15 @@ various short circuits, disintegrations and other damage to nodes in
 the brain can cause many interesting and unpredictable changes in
 behavior. Each time a vehicle is hit, its color darkens slightly so
 you can get an idea of how much damage it has sustained.
+
+
+* combat-3d.mov
+
+A 3D version of combat-2d.mov, rendered with QuickDraw 3D.
+
+
+* world-*.mov
+
+2D renderings of worlds/world-?.lisp.
+
+
