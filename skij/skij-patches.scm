@@ -1,3 +1,7 @@
+;; --------------------
+;; Patches and improvements for Skij.
+;; --------------------
+
 ;; -----
 ;; textrace.scm
 ;; -----
