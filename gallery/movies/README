@@ -1,0 +1,29 @@
+* 3v.mov
+
+Rendered with POV-Ray.  Shows two simple light-seeking vehicles and
+three smart lamps that dim themselves when they sense nearby movement.
+Similar to worlds/world-2.lisp.
+
+
+* cv-3d-lo.mov
+
+Vehicles--now with guns!
+
+In this world, GREEN vehicles are dumb and head straight for lamps.
+
+RED Vehicles are predators. They ignore lamps and home in on the
+movement of green and blue vehicles. They are armed with three
+long-range lasers.
+
+BLUE vehicles worship lamps, and they run away from predators. When a
+blue vehicle thinks a predator might be nearby, it does two things: it
+yells out an alarm, and it fires a rear-facing, short-range defensive
+laser. When other blue vehicles hear an alarm cry, they fire their
+lasers. The net effect is that all blue vehicles often fire their
+lasers simultaneously.
+
+When a vehicle is hit by a laser, random brain damage occurs. The
+various short circuits, disintegrations and other damage to nodes in
+the brain can cause many interesting and unpredictable changes in
+behavior. Each time a vehicle is hit, its color darkens slightly so
+you can get an idea of how much damage it has sustained.
