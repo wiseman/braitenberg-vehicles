@@ -1,0 +1,80 @@
+(define-radiation-types
+  (visible-light ()))
+
+
+(define-vehicle gerken-yellow
+  (:color 1 1 0)
+  (:sensor s1
+    (:orientation 30)
+    (:radiation-type visible-light))
+  (:sensor s2
+    (:orientation -30)
+    (:radiation-type visibile-light))
+  (:motor m1
+    (:position left))
+  (:motor m2
+    (:position right))
+  (:brain
+   (m1 (:inputs (s2)))
+   (m2 (:inputs (s1)))))
+
+
+(define-vehicle gerken-red
+  (:color 1 0 0)
+  (:sensor s1
+    (:orientation 30)
+    (:radiation-type visible-light))
+  (:sensor s2
+    (:orientation -30)
+    (:radiation-type visibile-light))
+  (:motor m1
+    (:position left))
+  (:motor m2
+    (:position right))
+  (:brain
+   (m1 (:inputs (s1)))
+   (m2 (:inputs (s2)))))
+    
+    
+(define-vehicle gerken-green
+  (:color 0 1 0)
+  (:sensor s1
+    (:orientation 30)
+    (:radiation-type visible-light))
+  (:sensor s2
+    (:orientation -30)
+    (:radiation-type visible-light))
+  (:motor m1
+    (:position left))
+  (:motor m2
+    (:position right))
+  (:brain
+   (n1 (:inhibitors (s1))
+       (:threshold 0))
+   (n2 (:inhibitors (s2))
+       (:threshold 0))
+   (m1 (:inputs (n1)))
+   (m2 (:inputs (n2)))))
+
+(define-vehicle gerken-blue
+  (:color 0 0 1)
+  (:sensor s1
+    (:orientation 30)
+    (:radiation-type visible-light))
+  (:sensor s2
+    (:orientation -30)
+    (:radiation-type visible-light))
+  (:motor m1
+    (:position left))
+  (:motor m2
+    (:position right))
+  (:brain
+   (n1 (:inhibitors (s2))
+       (:threshold 0))
+   (n2 (:inhibitors (s1))
+       (:threshold 0))
+   (m1 (:inputs (n1)))
+   (m2 (:inputs (n2)))))
+
+      
+  

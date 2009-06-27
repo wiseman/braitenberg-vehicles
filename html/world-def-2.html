@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>Braitenberg Vehicle Simulator: World Definition 2</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+
+<h2>Definitions for world-2</h2>
+<ul>
+<li><a href="#radiation">Radiation type hierarchy</a></li>
+<li><a href="#lamps">Lamps</a></li>
+<li><a href="#vehicles">Vehicles</a></li>
+</ul>
+
+<hr>
+
+<pre>
+<a name="radiation"></a>
+<font color="#0000FF">;; Light is a type of electromagnetic radiation, visible-light
+;; and infrared are types of light, low- and high-infrared are
+;; types of infrared radiation.
+</font>
+(define-radiation-types
+  (light (electromagnetic))
+  (visible-light (light))
+  (infrared (light))
+  (low-infrared (infrared))
+  (high-infrared (infrared)))
+
+<a name="lamps"></a>
+<font color="#0000FF">;; Define three lamps.  Each radiates visible light, and each has an
+;; infrared sensor attached to its "filament" via an inhibitory
+;; connection.  The lamps are yellow in the simulation view.</font>
+
+(define-lamp <strong><font color="#DD0000">lamp-1</font></strong>
+  (:position 0 -1.5)
+  (:color 1.0 1.0 0.0)
+  (:sensor s1
+    (:radiation-type infrared)
+    (:non-directional? T)
+    (:sensitivity 10.0))
+  (:radiator r1
+    (:radiation-type visible-light)
+    (:decay-factor 0.05)
+    (:brightness 2.0))
+  (:brain
+   (n1 (:inputs ())
+       (:threshold 0)
+       (:inhibitors (s1)))
+   (r1 (:inputs (n1)))))
+
+(define-lamp <strong><font color="#DD0000">lamp-2</font></strong>
+  (:position 1.5 1.5)
+  (:color 1.0 1.0 0.0)
+  (:sensor s1
+    (:radiation-type infrared)
+    (:non-directional? T)
+    (:sensitivity 10.0))
+  (:radiator r1
+    (:radiation-type visible-light)
+    (:brightness 2.0)
+    (:decay-factor 0.05))
+  (:brain
+   (n1 (:inputs ())
+       (:threshold 0)
+       (:inhibitors (s1)))
+   (r1 (:inputs (n1)))))
+
+(define-lamp <strong><font color="#DD0000">lamp-3</font></strong>
+  (:position -1.5 1.5)
+  (:color 1.0 1.0 0.0)
+  (:sensor s1
+    (:radiation-type infrared)
+    (:non-directional? T)
+    (:sensitivity 10.0))
+  (:radiator r1
+    (:radiation-type visible-light)
+    (:brightness 2.0)
+    (:decay-factor 0.05))
+  (:brain
+   (n1 (:inputs ())
+       (:threshold 0)
+       (:inhibitors (s1)))
+   (r1 (:inputs (n1)))))
+
+
+<a name="vehicles"></a>
+<font color="#0000FF">;; The two vehicles are identical.  They are attracted to visible
+;; light and have motors that radiate in low infrared. </font>
+
+(define-vehicle <strong><font color="#DD0000">simple-light-seeker-1</font></strong>
+  (:position 3.0 3.0)
+  (:orientation 180)
+  (:max-speed 15)
+  (:color 0 1.0 0)
+  (:sensor s1
+    (:orientation -30)
+    (:radiation-type visible-light)
+    (:sensitivity 3.0))
+  (:sensor s2
+    (:orientation 30)
+    (:radiation-type visible-light)
+    (:sensitivity 3.0))
+  (:motor m1
+    (:position right)
+    (:decay-factor 0.18))
+  (:motor m2
+    (:position left)
+    (:decay-factor 0.18))
+  (:radiator r1
+    (:radiation-type low-infrared)
+    (:decay-factor 1.0))
+  (:brain
+   (r1 (:inputs (m1 m2)))
+   (m1 (:inputs (s2)))
+   (m2 (:inputs (s1)))))
+
+(define-vehicle <strong><font color="#DD0000">simple-light-seeker-2</font></strong>
+  (:position 2.0 3.0)
+  (:orientation 180)
+  (:max-speed 15)
+  (:color 1.0 0 0)
+  (:sensor s1
+    (:orientation -30)
+    (:radiation-type visible-light)
+    (:sensitivity 3.0))
+  (:sensor s2
+    (:orientation 30)
+    (:radiation-type visible-light)
+    (:sensitivity 3.0))
+  (:motor m1
+    (:position right)
+    (:decay-factor 0.18))
+  (:motor m2
+    (:position left)
+    (:decay-factor 0.18))
+  (:radiator r1
+    (:radiation-type low-infrared)
+    (:decay-factor 1.0))
+  (:brain
+   (r1 (:inputs (m1 m2)))
+   (m1 (:inputs (s2)))
+   (m2 (:inputs (s1)))))
+
+
+</pre>
+</body>
+</html>

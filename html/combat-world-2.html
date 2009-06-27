@@ -1,0 +1,291 @@
+<html>
+<head>
+<title>Braitenberg Vehicle Simulator: World Definition: combat-world-2</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+
+<h2>Definitions for combat-world-2</h2>
+<ul>
+<li><a href="#radiation">Radiation type hierarchy</a></li>
+<li><a href="#lamp-1">Lamp 1</a></li>
+<li><a href="#lamp-2">Lamp 2</a></li>
+<li><a href="#simp-ls-def">Definition of simple-light-seeker Vehicle Type</a>
+<li><a href="#simp-ls-1">Simple Light Seeker 1</a></li>
+<li><a href="#simp-ls-2">Simple Light Seeker 2</a></li>
+<li><a href="#heat-seek-def">Definition of heat-seeker Vehicle Type</a></li>
+<li><a href="#heat-seek-1">Heat Seeker 1</a></li>
+<li><a href="#heat-seek-2">Heat Seeker 2</a></li>
+<li><a href="#non-lin-def">Definition of non-linear-shy-seeker Vehicle Type</a></li>
+<li><a href="#shy-1">Non-linear Shy Seeker 1</a></li>
+<li><a href="#shy-2">Non-linear Shy Seeker 2</a></li>
+</ul>
+
+<hr>
+
+<pre>
+<font color="#0000FF">
+<a name="radiation">;; Light is a type of electromagnetic radiation; visible-light</a>
+;; and infrared are types of light; low- and high-infrared are
+;; types of infrared raidation; predator-alarm is a type of sound.
+</font>
+(define-radiation-types
+  (light (electromagnetic))
+  (visible-light (light))
+  (infrared (light))
+  (low-infrared (infrared))
+  (high-infrared (infrared))
+  (predator-alarm (sound)))
+
+
+<font color="#0000FF"><a name="lamp-1">;;</a> <a name="lamp-2">Instantiate</a> two yellow lamps, each radiating visible light
+;; at a constant intensity.
+</font>
+(lamp <strong><font color="#DD0000">lamp-1</font></strong>
+  (:position 0.0 0.0)
+  (:color 1.0 1.0 0.0)
+  (:radiator r1
+    (:radiation-type visible-light)
+    (:decay-factor 0.05)))
+
+(lamp <strong><font color="#DD0000">lamp-2</font></strong>
+  (:position -4.0 -4.0)
+  (:color 1.0 1.0 0.0)
+  (:radiator r1
+    (:radiation-type visible-light)
+    (:decay-factor 0.05)))
+
+
+<font color="#0000FF"><a name="simp-ls-def">;; Define the simple-light-seeker vehicle type.</a>
+;; Homes in on visible light; motors radiate in low infrared.
+</font>
+(define-vehicle <strong><font color="#DD0000">simple-light-seeker</font></strong>
+  (:sensor s1
+    (:orientation -30)
+    (:radiation-type visible-light)
+    (:sensitivity 3.0))
+  (:sensor s2
+    (:orientation 30)
+    (:radiation-type visible-light)
+    (:sensitivity 3.0))
+  (:motor m1
+    (:position right)
+    (:decay-factor 0.1))
+  (:motor m2
+    (:position left)
+    (:decay-factor 0.1))
+  (:radiator r1
+    (:radiation-type low-infrared)
+    (:decay-factor .05))
+  (:brain
+    (r1 (:inputs (m1 m2)))
+    (m1 (:inputs (s2)))
+    (m2 (:inputs (s1)))))
+
+
+<font color="#0000FF"><a name="simp-ls-1">;;</a> <a name="simp-ls-2">Instantiate two green simple-light-seekers; name them</a>
+;;  simple-light-seeker-1 and simple-light-seeker-2.
+</font>
+(vehicle <strong><font color="#DD0000">simple-light-seeker-1</font></strong> simple-light-seeker
+  (:position 5.0 -2.5)
+  (:orientation 0)
+  (:max-speed 15)
+  (:color 0 1.0 0))
+         
+(vehicle <strong><font color="#DD0000">simple-light-seeker-2</font></strong> simple-light-seeker
+  (:position -6.0 -3)
+  (:orientation 0)
+  (:max-speed 15)
+  (:color 0 1.0 0))
+
+
+<font color="#0000FF"><a name="heat-seek-def">;; Define the heat-seeker vehicle type.</a>
+;;
+;; Sensors are sensitive to low infrared, motors radiate high infrared.
+;; Has three long-range forward-facing lasers that fire approximately
+;; when a target signal is centered in the field of view of the forward
+;; sensors.
+</font>
+(define-vehicle <strong><font color="#DD0000">heat-seeker</font></strong>
+  (:sensor s1
+    (:orientation -40)
+    (:radiation-type low-infrared)
+    (:sensitivity 10.0))
+  (:sensor s2
+    (:orientation 40)
+    (:radiation-type low-infrared)
+    (:sensitivity 10.0))
+  (:motor m1
+    (:position right)
+    (:decay-factor 0.1))
+  (:motor m2
+    (:position left)
+    (:decay-factor 0.1))
+  (:radiator r1
+    (:radiation-type high-infrared)
+    (:decay-factor .05))
+  (:gun g1
+    (:range 3))
+  (:gun g2
+    (:range 3)
+    (:orientation -20))
+  (:gun g3
+    (:range 3)
+    (:orientation 20))
+  (:brain
+   (n1 (:inputs (s1))
+       (:inhibitors (g1))
+       (:threshold 1))
+   (n2 (:inputs (s2))
+       (:inhibitors (g1))
+       (:threshold 1))
+   (m2 (:inputs (n1)))
+   (m1 (:inputs (n2)))
+   (r1 (:inputs (m1 m2)))
+   (a1 (:threshold 1.8)
+       (:inputs (m1 m2))
+       (:inhibitors (g1)))
+   (a3 (:threshold 2.8)
+       (:inputs (a1 m1 m2))
+       (:inhibitors (g1)))
+   (a2 (:threshold 3.8)
+       (:inputs (m1 m2 a1 a3))
+       (:inhibitors (g1)))
+   (g1 (:inputs (a2)))
+   (g2 (:inputs (a2)))
+   (g3 (:inputs (a2)))))
+
+
+<font color="#0000FF"><a name="heat-seek-1">;;</a> <a name="heat-seek-2">Instantiate two red heat-seekers; name them heat-seeker-1 and heat-seeker-2.</a>
+</font>
+(vehicle <strong><font color="#DD0000">heat-seeker-1</font></strong> heat-seeker
+  (:position -7.0 6.0)
+  (:orientation 0.0)
+  (:max-speed 15.0)
+  (:color 1.0 0 0))
+
+(vehicle <strong><font color="#DD0000">heat-seeker-2</font></strong> heat-seeker
+  (:position 7.0 6.0)
+  (:orientation 0.0)
+  (:max-speed 15.0)
+  (:color 1.0 0 0))
+
+
+<font color="#0000FF"><a name="non-lin-def">;; Define the non-linear-shy-seeker type.</a>
+;;
+;; This vehicle's basic characteristics are that it has a preferred distance
+;; from visible light sources and that its motors radiate in low infrared (so
+;; predators can see it).
+;;
+;; But it also has defensive capabilities: A single short-range laser facing
+;; rearward.   When the vehicle's sensors detect enough high-infrared (radiated
+;; by predator motors) it will broadcast an intense pulse of &quot;predator-alert&quot;
+;; radiation and fire its laser.  Other non-linear-shy-seekers that detect the
+;; predator-alert will also fire their lasers.
+</font>
+(define-vehicle <strong><font color="#DD0000">non-linear-shy-seeker</font></strong>
+  (:sensor s1
+    (:orientation 30)
+    (:radiation-type visible-light)
+    (:sensitivity 4.0))
+  (:sensor s2
+    (:orientation -30)
+    (:radiation-type visible-light)
+    (:sensitivity 4.0))
+
+  (:sensor s3
+    (:orientation 50)
+    (:radiation-type high-infrared)
+    (:sensitivity 2.0))
+  (:sensor s4
+    (:orientation -50)
+    (:radiation-type high-infrared)
+    (:sensitivity 2.0))
+  
+  (:sensor alarm-sensor
+    (:radiation-type predator-alarm)
+    (:sensitivity 100.0))
+
+  (:gun g1
+    (:orientation 180)
+    (:range 1))
+
+  (:motor m1
+    (:position left)
+    (:decay-factor 0.1))
+  (:motor m2
+    (:position right)
+    (:decay-factor 0.1))
+
+  (:radiator r1
+    (:radiation-type low-infrared)
+    (:decay-factor .05))
+
+  (:radiator alarm
+    (:radiation-type predator-alarm)
+    (:decay-factor 0))
+
+  (:brain
+
+   <font color="#0000FF">;; Light-seeking behavior</font>
+   (n1 (:inputs (s1))
+       (:inhibitors (n2))
+       (:threshold 1))
+   (n1.5 (:inputs (s1))
+         (:threshold 1))
+   (n2 (:inputs (n1.5))
+       (:threshold 1))
+   (m2 (:inputs (n1 s4)))
+
+   <font color="#0000FF">;; Predator avoidance behavior</font>
+   (n3 (:inputs (s2))
+       (:threshold 1))
+   (n3.5 (:inputs (s2))
+         (:threshold 1))
+   (n4 (:inputs (n3.5))
+       (:inhibitors (n3))
+       (:threshold 1))
+   (m1 (:inputs (n4 s3)))
+
+   (predator (:inputs (n1 n4))
+             (:inhibitors (g1))
+             (:threshold 2))
+                      
+   (g1 (:inputs (predator alarm-sensor))
+       (:inhibitors (g1))
+       (:threshold 1))
+
+   (alarm (:inputs (predator)))
+   
+   (r1 (:inputs (m1 m2)))))
+
+
+<font color="#0000FF"><a name="shy-1">;;</a> <a name="shy-2">Instantiate</a> <a name="shy-3">three</a> blue non-linear-shy-seekers; name them</a>
+;; shy-1, shy-2 and shy-3.
+</font>
+(vehicle <strong><font color="#DD0000">shy-1</font></strong> non-linear-shy-seeker
+  (:position 4.0 -5.0)
+  (:orientation 294)
+  (:color 0 0 1.0))
+
+(vehicle <strong><font color="#DD0000">shy-2</font></strong> non-linear-shy-seeker
+  (:position 4.0 5.0)
+  (:orientation 294)
+  (:color 0 0 1.0))
+
+(vehicle <strong><font color="#DD0000">shy-3</font></strong> non-linear-shy-seeker
+  (:position -4.0 -5.0)
+  (:orientation 294)
+  (:color 0 0 1.0))
+
+
+
+
+
+
+
+
+
+</pre>
+</body>
+</html>

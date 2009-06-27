@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+
+<title>Braitenberg Vehicles</title>
+
+<link rev=made href="mailto:jjwiseman@yahoo.com">
+<meta name="resource-type" content="document">
+<meta name="generator" content="emacs">
+<meta name="description" content="Description of and animations from a Braitenberg vehicle simulator (based on the book Vehicles: Experiments in Synthetic Psychology)."> 
+<meta name="keywords" content="Braitenberg vehicles, synthetic psychology, connectionist artificial intelligence, neural networks"
+<meta name="distribution" content="global">
+<meta name="copyright" content="John Wiseman, 1997">
+
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+<h1 align=center>Braitenberg Vehicles</h1>
+<p>
+<center>
+<img alt="[Vehicle image]" src="vehicle.jpg" width=480 height=258>
+</center>
+<hr>
+
+<h2>Introduction</h2>
+
+
+
+
+In the book <a href="http://www.amazon.com/exec/obidos/ASIN/0262521121/johnwiseman"><em>Vehicles:
+Experiments in Synthetic Psychology</em></a>, Valentino Braitenberg
+describes a series of thought experiments in which &quot;vehicles&quot; with
+simple internal structure behave in unexpectedly complex ways.  He
+describes simple control mechanisms that generate behaviors that, if
+we did not already know the principles behind the vehicles' operation,
+we might call aggression, love, foresight and even optimism.
+Braitenberg gives this as evidence for the &quot;law of uphill analysis
+and downhill invention,&quot; meaning that it is much more difficult to
+try to guess internal structure just from the observation of behavior
+than it is to create the structure that gives the behavior.<p>
+
+I thought that was cool, so I wrote a vehicle simulator in Lisp.
+You can have the source as soon as it doesn't embarrass me.<p>
+
+
+<font size=-2>Wednesday, December 9, 1998</font><br>
+
+I have a Java version that is nearly complete and is as powerful as
+the original Lisp version (that is, it's not just a Braitenberg
+vehicle simulator, it is a Braitenberg vehicle simulation language).
+It even reads the same <a href="world-def-1.html">world definition
+files</a> because it is really a Lisp in Java (thanks to Michael
+Travers' <a href="http://www.alphaworks.ibm.com/tech/Skij">Skij</a>, a
+Scheme interpreter implemented in and tightly integrated with Java).
+You will see it here soon.<p>
+
+Here are a couple images from the Java work-in-progress:<p>
+<a href="jvehicles-1.gif"><img src="jvehicles-1-s.jpg" alt="[Java sim image]"></a>
+<a href="jvehicles-2.gif"><img src="jvehicles-2-s.jpg" alt="[Java sim image]"></a>
+<p>
+
+
+
+
+<br>
+
+<h2>The Simulator</h2>
+
+The simulator allows one to create a world filled with vehicles and
+lamps, set it in motion, and observe the resulting interactions.
+<P>
+
+The input to the simulator is a world definition file that specifies
+the vehicles and lamps to be simulated and their characteristics.
+Each vehicle and lamp is specified by describing its parts (e.g.,
+sensors, radiators, motors) and their characteristics (e.g., sensitive
+to infrared radiation, capable of maximum speed of 10 units/s), and
+its brain.  The brain is a network of &quot;neurodes&quot; that acts like a
+clocked digital circuit.  The brain usually drives components like
+motors and radiators based on sensor input.  <P>
+
+The simulator can produce output in the form of <a
+href="cg-renderer.html">2D graphics</a>, <a href="qd3d-renderer.jpg">3D
+graphics</a> or <a href="pov-renderer.jpg">scene</a> description files
+for other dedicated renderers.  Currently it uses Jim Firby's portable
+Common Graphics package for Lisp to do 2D, 3D is supported using
+Apple's <a href="http://www.apple.com/quicktime/qd3d/">QuickDraw
+3D</a> API, and the simulator can generate files for the <a
+href="http://www.povray.org/">POV-Ray</a> raytracer.  <P>
+
+<a href="cg-renderer.html"><img src="cg-renderer-thumb.jpg" alt="[CG Renderer]"></a>
+<a href="qd3d-renderer.jpg"><img src="qd3d-renderer-thumb.jpg" alt="[QD3D Renderer]"></a>
+<a href="pov-renderer.jpg"><img src="pov-renderer-thumb.jpg" alt="[POV Renderer]"></a>
+<p>
+
+
+
+I typically view a simulation run in realtime using simple 2D or 3D
+graphics and tweak it until I'm ready to generate POV files and spend
+a few hours raytracing.
+<P>
+
+<br>
+<h2><a href="test-run.html">Example Runs</a></h2>
+
+You can look at some <a href="test-run.html">examples</a> of different
+kinds of vehicles simulated in various worlds.  There are 2D and 3D
+animations of the simulator runs that demonstrate some basic vehicle
+behaviors, like <b>aggression</b> towards light, <b>non-linear</b>
+response to ("worship" of) light, <b>pursuit</b> by predators and
+<b>avoidance</b> by prey, and (very) simple <b>communication</b>
+between vehicles.
+
+<p>
+
+These are not the only possible behaviors; The range of behavior is
+limited only by your ability to wire together networks of neurodes in
+the vehicles' little brains.
+
+<p>
+
+There is a heavily armed autonomous <a
+href="test-run.html#combat-2">Combat Vehicles</a> variant in which
+vehicles can fire blasters at each other.  It also shows an example of
+simple communication between vehicles.
+
+<p>
+
+
+<br>
+<h2>The Animation</h2>
+
+Eventually I would like to create a high-quality, high-resolution
+animation of these vehicles, and I'd like it to be interesting.
+Miscellaneous topics encountered in pursuit of this goal include 3D
+API programming, spline math, animation scripting languages, digital
+electronics and film camera techniques.  It's been fun.
+<P>
+
+<br>
+<h2>Other Resources and Related Information</h2>
+
+Many people have done work related to Braitenberg vehicles:  <p>
+
+<ul>
+
+  <li>A student of Michael Littman's at Duke University wrote a <a
+href="http://www.duke.edu/~mrz/braitenberg/">simulator</a> using
+Macromedia Director (requires Shockwave to run).  One can drag the
+vehicle and lamps around the field while the simulation is running.<p>
+
+  <li><a href="http://www.legomindstorms.com/">Lego Mindstorms</a> is
+a consumer version of MIT's electronic brick.  Valentino Braitenberg
+says "Many of the proposed experiments could be done with the
+Lego Mindstorms kit."
+
+Hackers are busy working to make it easier to build cool Lego robots;
+see the <a href="http://www.crynwr.com/lego-robotics/">Lego Mindstorms
+Internals</a> page.<p>
+
+  <li>Chris Gerken has a <a
+href="http://www.mindspring.com/~gerken/vehicles/">simulator</a>
+written in Java (and one in Smalltalk?).  You can see what Gerken's
+vehicles look like in my simulator: <a
+href="gerken.txt">gerken.txt</a><p>
+
+  <li>Torsten Will has a <a href="http://www.geocities.com/Colosseum/3141/Braitenberg.html">Braitenberg vehicle simulator</a> written in Java.  (His page supplies the applet with parameters that do not make for a very interesting demonstration.  Try <a href="torsten-will-java.html">this page</a> instead.)<p>
+
+<!--
+  <li>Dr. Michael Dawson of the University of Alberta uses <em>Vehicles</em>
+in his classes, and has put some
+<a href="http://web.psych.ualberta.ca/~mike/Pearl_Street/Vehicles/home.html">notes</a>
+online.<p>
+-->
+
+  <li>Robin Edwards has a Braitenberg vehicle <a href="http://www.methedrine.demon.co.uk/vehicles.html">simulator</a> for Linux.<p>
+
+  <li>David Hogg, Fred Martin and Mitchel Resnick at the MIT Media Lab have
+written a
+<a href="http://lcs.www.media.mit.edu/people/fredm/papers/vehicles/">paper</a>
+describing Braitenberg creatures built with &quot;Electronic Bricks&quot;
+(LEGOs).<p>
+
+<!--
+  <li>Deborah Stacey of the University of Guelph also has some
+<a href="http://hebb.cis.uoguelph.ca/~deb/Robotics/Notes/vehicles.html">class notes</a>
+on <em>Vehicles</em>.<p>
+-->
+
+
+  <li>Chris Thornton of the University of Sussex has developed a simulation
+environment for track-driven robots called
+<a href="http://www.cogs.susx.ac.uk/users/christ/popbugs/intro.html">POPBUGS</a>,
+and used it to
+<a href="http://www.cogs.susx.ac.uk/users/christ/popbugs/braitenbergs.html">simulate Braitenberg-like vehicles</a>.
+
+</ul>
+
+
+<hr>
+
+<table width="100%">
+<tr>
+<td valign=top>
+<a href="../"><img border=0 src="../parent.gif" alt="[parent]">Home</a>
+</td>
+<td align=right valign=top width="*">
+<font size=-1>
+John Wiseman / <A HREF="mailto:jjwiseman@yahoo.com">jjwiseman@yahoo.com</A>
+<br>
+May 6, 1999
+</font>
+</td>
+</tr>
+</table>
+
+<hr>
+
+<img src="wireframe.gif">
+
+</body> </html>
